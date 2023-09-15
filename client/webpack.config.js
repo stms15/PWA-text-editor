@@ -1,7 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
 // Configure workbox plugins for service worker and manifest files.
@@ -15,15 +14,15 @@ module.exports = () => {
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
     },
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html',
         title: 'JATE Text Editor',
       }),
-      new MiniCssExtractPlugin(),
       new InjectManifest({
-        swSrc: './src-sw.js',
+        swSrc: './service-worker.js',
         swDest: 'service-worker.js',
       }),
       new WebpackPwaManifest({
@@ -37,7 +36,7 @@ module.exports = () => {
           {
             src: path.resolve('./src/images/logo.png'),
             type: 'image/png',
-            sizes: [96, 128, 192, 512],
+            sizes: [500],
             purpose: 'any maskable',
           },
         ],
@@ -49,7 +48,7 @@ module.exports = () => {
       rules: [
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          use: ['style-loader', 'css-loader'],
         },
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,

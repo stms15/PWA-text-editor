@@ -5,15 +5,16 @@ const butInstall = document.getElementById('buttonInstall');
 window.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault();
   butInstall.style.visibility = 'visible';
-});
 
-// Click event handler for install button
-butInstall.addEventListener('click', async () => {
-  installBtn.setAttribute('disabled', true);
+  // Click event handler for install button
+  butInstall.addEventListener('click', async () => {
+    event.prompt();
+    butInstall.setAttribute('disabled', true);
+  });
 });
 
 // Event handler for the `appinstalled` event
 window.addEventListener('appinstalled', (event) => {
-  installBtn.textContent = 'Installed!';
+  butInstall.textContent = 'Installed!';
   console.log('👍', 'appinstalled', event);
 });
